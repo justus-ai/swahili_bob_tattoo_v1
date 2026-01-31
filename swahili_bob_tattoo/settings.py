@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
 import os  # Keeping a single `import os`
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'swahili_bob_tattoo_v1.settings')
+
+application = get_wsgi_application()
 
 import dj_database_url
 if os.path.exists('env.py'):
@@ -114,7 +119,9 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
-WSGI_APPLICATION = 'swahili_bob_tattoo.wsgi.application'
+ROOT_URLCONF = 'swahili_bob_tattoo_v1.urls'
+WSGI_APPLICATION = 'swahili_bob_tattoo_v1.wsgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
