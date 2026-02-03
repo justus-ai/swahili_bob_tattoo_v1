@@ -9,7 +9,11 @@ alias deactivate 'test $?_OLD_VIRTUAL_PATH != 0 && setenv PATH "$_OLD_VIRTUAL_PA
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 setenv VIRTUAL_ENV "/workspaces/swahili_bob_tattoo_v1/venv"
+=======
+setenv VIRTUAL_ENV "/workspaces/swahili_bob_tattoo_v1/swahili_bob_tattoo_v1/venv"
+>>>>>>> 526149c94fa8fc78a3f70eb903d0b04f99726026
 
 set _OLD_VIRTUAL_PATH="$PATH"
 setenv PATH "$VIRTUAL_ENV/bin:$PATH"

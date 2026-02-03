@@ -10,13 +10,22 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 from pathlib import Path
-import os
+import os  # Keeping a single `import os`
+from django.core.wsgi import get_wsgi_application
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'swahili_bob_tattoo_v1.settings')
+
+application = get_wsgi_application()
+
 import dj_database_url
 if os.path.exists('env.py'):
     import env
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Ensure the app binds to the PORT set by Render, falling back to 8000
+PORT = int(os.environ.get('PORT', 8000))  # Use 8000 as the default fallback
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -27,31 +36,28 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['swahili-bob-tattoo.herokuapp.com', 'localhost']
-
-
+ALLOWED_HOSTS = ['localhost', 'justus-ai-swahili-bob-tattoo-v1.onrender.com']
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages', 
+    'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'home',
-    'products',
-    'bag',
-    'checkout',
-    'profiles',
+    #'django.contrib.sites',
+    #'allauth',
+    #'allauth.account',
+   # 'allauth.socialaccount',
+   # 'home',
+   # 'products',
+   # 'bag',
+   # 'checkout',
+  #  'profiles',
 
     # Other
-    'crispy_forms',
-    'storages',
+    #'crispy_forms',
+    #'storages', #
 ]
 
 MIDDLEWARE = [
@@ -79,7 +85,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request', # required by Allauth
+                'django.template.context_processors.request',  # required by Allauth
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
@@ -88,9 +94,9 @@ TEMPLATES = [
             'builtins': [
                 'crispy_forms.templatetags.crispy_forms_tags',
                 'crispy_forms.templatetags.crispy_forms_field',
-            ] 
+            ]
         },
-    }, 
+    },
 ]
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
@@ -113,11 +119,13 @@ ACCOUNT_USERNAME_MIN_LENGTH = 4
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 
-WSGI_APPLICATION = 'swahili_bob_tattoo.wsgi.application'
+ROOT_URLCONF = 'swahili_bob_tattoo_v1.urls'
+WSGI_APPLICATION = 'swahili_bob_tattoo_v1.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+
 
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
@@ -130,12 +138,8 @@ else:
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -151,24 +155,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
@@ -200,14 +196,11 @@ if 'USE_AWS' in os.environ:
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe
-
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
-
 STRIPE_CURRENCY = 'sek'
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')

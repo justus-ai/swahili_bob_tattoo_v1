@@ -33,7 +33,11 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 set -gx VIRTUAL_ENV "/workspaces/swahili_bob_tattoo_v1/venv"
+=======
+set -gx VIRTUAL_ENV "/workspaces/swahili_bob_tattoo_v1/swahili_bob_tattoo_v1/venv"
+>>>>>>> 526149c94fa8fc78a3f70eb903d0b04f99726026
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

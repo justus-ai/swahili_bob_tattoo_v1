@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/workspaces/swahili_bob_tattoo_v1/venv/bin/python3
+=======
+#!/workspaces/swahili_bob_tattoo_v1/swahili_bob_tattoo_v1/venv/bin/python3
+>>>>>>> 526149c94fa8fc78a3f70eb903d0b04f99726026
 # -*- coding: utf-8 -*-
 import re
 import sys
