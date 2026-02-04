@@ -36,7 +36,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEVELOPMENT' in os.environ
 
-ALLOWED_HOSTS = ['localhost', 'justus-ai-swahili-bob-tattoo-v1.onrender.com']
+ALLOWED_HOSTS = ['localhost', 'justus-ai-swahili-bob-tattoo.onrender.com']
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
