@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -75,40 +76,37 @@ else:
         raise RuntimeError("DATABASE_URL is required in production.")
 
 # Static and Media Configuration
+# Static and Media Configuration
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+# Media files (uploads)
+MEDIA_URL = '/media/'
+
+# AWS S3 Configuration
 if 'USE_AWS' in os.environ:
+    # AWS S3 Settings
     AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME', '')
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', '')
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID', '')
     AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY', '')
-
-    # Check required AWS environment variables
-    if not AWS_STORAGE_BUCKET_NAME:
-        raise RuntimeError("AWS_STORAGE_BUCKET_NAME is missing; check your environment variables.")
-    if not AWS_ACCESS_KEY_ID:
-        raise RuntimeError("AWS_ACCESS_KEY_ID is missing; check your environment variables.")
-    if not AWS_SECRET_ACCESS_KEY:
-        raise RuntimeError("AWS_SECRET_ACCESS_KEY is missing; check your environment variables.")
-
-    # AWS S3 Settings
-    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    
+    # S3 Static settings
     STATICFILES_LOCATION = 'static'
-    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
-    MEDIAFILES_LOCATION = 'media'
-
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
+    
+    # S3 Media settings
+    MEDIAFILES_LOCATION = 'media'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
 else:
-    # Development fallback
-    STATIC_URL = '/static/'
-    MEDIA_URL = '/media/'
-    STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+    # Local filesystem storage with WhiteNoise
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Logging Configuration
-LOGS_DIR = os.path.join(BASE_DIR, 'logs')
-os.makedirs(LOGS_DIR, exist_ok=True)  # Create the logs directory if 
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 TEMPLATES = [
     {
@@ -134,6 +132,9 @@ TEMPLATES = [
         },
     },
 ]
+# Logging directory
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')
+os.makedirs(LOGS_DIR, exist_ok=True)
 
 LOGGING = {
     'version': 1,
@@ -173,5 +174,3 @@ STRIPE_CURRENCY = 'sek'
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY', 'pk_test_placeholder')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY', 'sk_test_placeholder')
 STRIPE_WH_SECRET = os.getenv('STRIPE_WH_SECRET', '')
-# WhiteNoise configuration for static files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
