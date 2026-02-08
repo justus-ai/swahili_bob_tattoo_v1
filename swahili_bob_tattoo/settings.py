@@ -33,17 +33,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'allauth', 
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'home', 
+    'crispy_forms',
+    'crispy_bootstrap4',  # ← Add this line
+    'storages',
+    
+    # Your apps
+    'home',
     'products',
     'bag',
     'checkout',
     'profiles',
-    'newsletter',
-    'crispy_forms', 
-    'storages',
     
 ]
 
@@ -214,6 +216,8 @@ LOGIN_REDIRECT_URL = '/'
 SITE_ID = 1
 
 # Crispy Forms Configuration
+# Crispy Forms Configuration
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Django Allauth Configuration

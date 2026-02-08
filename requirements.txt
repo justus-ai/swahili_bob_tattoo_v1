@@ -17,6 +17,7 @@ cffi==2.0.0
 charset-normalizer==3.4.4
 colorama==0.4.6
 comm==0.2.3
+crispy-bootstrap4==2025.6
 cryptography==46.0.4
 debugpy==1.8.17
 decorator==5.2.1
